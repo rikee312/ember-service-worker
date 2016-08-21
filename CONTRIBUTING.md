@@ -53,24 +53,8 @@ First clone this repository:
 git clone https://github.com/DockYard/ember-service-worker.git
 ```
 
-Then move into the project's directory and install the dependencies:
-
-```sh
-cd ember-service-worker
-npm install
-bower install
-```
+<!-- Add further details on how to install the project here -->
 
 ## Running tests
 
-To run the node tests:
-
-```sh
-npm test
-```
-
-To run the ember tests:
-
-```sh
-ember test
-```
+<!-- Tell the user how to run the tests of your project -->
