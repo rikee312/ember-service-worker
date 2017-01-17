@@ -13,6 +13,12 @@ var existsSync = require('exists-sync');
 var hashForDep = require('hash-for-dep');
 var addonUtils = require('./lib/addon-utils');
 
+
+var TREE_FOR_METHODS = {
+  'service-worker': 'treeForServiceWorker',
+  'service-worker-registration': 'treeForServiceWorkerRegistration'
+};
+
 module.exports = {
   name: 'ember-service-worker',
 
@@ -134,10 +140,17 @@ module.exports = {
 
   _transpilePath: function(project, treePath) {
     var projectPath = path.resolve(project.root, treePath);
+    var treeForMethod = TREE_FOR_METHODS[treePath];
 
     if (existsSync(projectPath)) {
       var babelOptions = getBabelOptions(project);
-      var babelTree = new Babel(this.treeGenerator(projectPath), babelOptions);
+      var tree = this.treeGenerator(projectPath);
+
+      if (project[treeForMethod]) {
+        tree = project[treeForMethod](tree);
+      }
+
+      var babelTree = new Babel(tree, babelOptions);
 
       return new Funnel(babelTree, {
         destDir: project.pkg.name + '/' + treePath
